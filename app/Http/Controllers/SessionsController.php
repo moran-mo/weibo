@@ -22,7 +22,7 @@ class SessionsController extends Controller
         //  auth::user() 可以看做 [$user] 或 $user->id
         //  链接方法的重定向    辅助函数back返回前一个 URL
         // 有两种写法 redirect()->back();  或 redirect()->back()->withInput();
-        if (Auth::attempt($credentials)){
+        if (Auth::attempt($credentials,$request->has('remember'))){
             session()->flash('success','欢迎回来');
             return redirect()->route('users.show',[Auth::user()]);
         } else {
@@ -34,7 +34,7 @@ class SessionsController extends Controller
 
     public function destroy(){
         Auth::logout();
-        session()->false('success','您已成功退出');
+        session()->flash('success','您已成功退出');
         return redirect('login');
     }
 
